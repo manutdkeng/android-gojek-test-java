@@ -1,5 +1,11 @@
 package com.zack.gojektestjava;
 
+import android.text.TextUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.zack.gojektestjava.database.RepoEntity;
+
 import java.util.List;
 
 public class RepoModel {
@@ -86,5 +92,38 @@ public class RepoModel {
 
     public void setBuiltBy(List<UserModel> builtBy) {
         this.builtBy = builtBy;
+    }
+
+    public RepoModel fromDatabaseModel(RepoEntity entity, Gson gson) {
+        this.author = entity.getAuthor();
+        this.avatar = entity.getAvatar();
+        this.currentPeriodStars = entity.getCurrentPeriodStars();
+        this.description = entity.getDescription();
+        this.forks = entity.getForks();
+        this.language = entity.getLanguage();
+        this.languageColor = entity.getLanguageColor();
+        this.name = entity.getName();
+        this.stars = entity.getStars();
+        this.url = entity.getUrl();
+        if (!TextUtils.isEmpty(entity.getBuiltBy())) {
+            this.builtBy = gson.fromJson(entity.getBuiltBy(), new TypeToken<List<UserModel>>(){}.getType());
+        }
+        return this;
+    }
+
+    public RepoEntity toDatabaseModel(Gson gson) {
+        RepoEntity entity = new RepoEntity();
+        entity.setAuthor(author);
+        entity.setAvatar(avatar);
+        entity.setCurrentPeriodStars(currentPeriodStars);
+        entity.setDescription(description);
+        entity.setForks(forks);
+        entity.setLanguage(language);
+        entity.setLanguageColor(languageColor);
+        entity.setName(name);
+        entity.setStars(stars);
+        entity.setUrl(url);
+        entity.setBuiltBy(gson.toJson(builtBy));
+        return entity;
     }
 }

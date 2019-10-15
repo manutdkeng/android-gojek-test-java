@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -28,6 +32,10 @@ dependencies {
     // retrofit
     implementation "com.squareup.retrofit2:converter-gson:$version_retrofit"
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
+
+    // room persistence
+    implementation "androidx.room:room-runtime:$version_room"
+    annotationProcessor "androidx.room:room-compiler:$version_room"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
