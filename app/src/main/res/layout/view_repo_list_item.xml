@@ -11,7 +11,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="@dimen/default_padding">
 
         <ImageView
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/between_padding"
             tools:text="TextView"
-            android:text="@{repoModel.description"
+            android:text="@{repoModel.description}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/author"
             app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -74,7 +74,6 @@
                 tools:text="TextView"
                 android:layout_marginEnd="@dimen/default_padding"
                 android:text="@{repoModel.language}"
-                app:drawableTint="@{repoModel.languageColor}"
                 android:drawableStart="@drawable/circle"
                 android:drawablePadding="@dimen/between_padding"/>
 
@@ -84,6 +83,7 @@
                 android:layout_height="wrap_content"
                 tools:text="TextView"
                 android:layout_marginEnd="@dimen/default_padding"
+                android:text="@{Integer.toString(repoModel.stars)}"
                 android:drawableStart="@drawable/star_yellow"
                 android:drawablePadding="@dimen/between_padding"/>
 
@@ -92,6 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="TextView"
+                android:text="@{Integer.toString(repoModel.forks)}"
                 android:drawableStart="@drawable/fork_black"
                 android:drawablePadding="@dimen/between_padding"/>
         </LinearLayout>

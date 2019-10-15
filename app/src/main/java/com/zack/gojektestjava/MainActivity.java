@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        setContentView(R.layout.activity_main);
 
         viewModel = ViewModelProviders.of(this).get(TrendingViewModel.class);
         binding.setLifecycleOwner(this);
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setObservers() {
-
         viewModel.getLoadingLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean loadingState) {

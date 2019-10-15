@@ -122,7 +122,8 @@ public class RepoModel {
         this.stars = entity.getStars();
         this.url = entity.getUrl();
         if (!TextUtils.isEmpty(entity.getBuiltBy())) {
-            this.builtBy = gson.fromJson(entity.getBuiltBy(), new TypeToken<List<UserModel>>(){}.getType());
+            this.builtBy = gson.fromJson(entity.getBuiltBy(), new TypeToken<List<UserModel>>() {
+            }.getType());
         }
         return this;
     }

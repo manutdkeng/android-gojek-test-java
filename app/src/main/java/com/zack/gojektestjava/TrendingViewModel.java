@@ -29,7 +29,7 @@ public class TrendingViewModel extends ViewModel {
 
     public LiveData<Boolean> getErrorLiveData() {
         errorLiveData = new MutableLiveData<>();
-        errorLiveData.setValue(true);
+        errorLiveData.setValue(false);
         return errorLiveData;
     }
 
