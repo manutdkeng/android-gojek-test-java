@@ -33,6 +33,12 @@ public class TrendingViewModel extends ViewModel {
         return errorLiveData;
     }
 
+    public void refetchData() {
+        errorLiveData.setValue(false);
+        loadingLiveData.setValue(true);
+        repository.refreshData();
+    }
+
     public LiveData<List<RepoModel>> getModelLiveData() {
         modelLiveData = new MediatorLiveData<>();
         modelLiveData.addSource(repository.getAllTrending(), new Observer<Response<List<RepoModel>>>() {

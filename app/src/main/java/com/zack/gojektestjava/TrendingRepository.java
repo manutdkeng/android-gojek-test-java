@@ -41,7 +41,7 @@ public class TrendingRepository {
 
     public LiveData<Response<List<RepoModel>>> getAllTrending() {
         liveData = new MediatorLiveData<>();
-        new CheckCacheData(dao, restClient, liveData).execute();
+        new CheckCacheData(dao, restClient, callback).execute();
         liveData.addSource(dao.getAll(), new Observer<List<RepoEntity>>() {
             @Override
             public void onChanged(List<RepoEntity> entities) {
@@ -58,16 +58,36 @@ public class TrendingRepository {
         return liveData;
     }
 
+    public void refreshData() {
+        restClient.getTrendingRepo(callback);
+    }
+
+    private Callback<List<RepoModel>> callback = new Callback<List<RepoModel>>() {
+        @Override
+        public void onResponse(Call<List<RepoModel>> call, retrofit2.Response<List<RepoModel>> response) {
+            if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                new SaveToDB(dao, response.body()).execute();
+            } else {
+                liveData.setValue(Response.<List<RepoModel>>error("Empty response"));
+            }
+        }
+
+        @Override
+        public void onFailure(Call<List<RepoModel>> call, Throwable t) {
+            liveData.setValue(Response.<List<RepoModel>>error("Error message"));
+        }
+    };
+
     private static class CheckCacheData extends AsyncTask<Void, Void, Boolean> {
         private RepoDao dao;
         private GithubRestClient restClient;
-        private MediatorLiveData<Response<List<RepoModel>>> liveData;
+        private Callback<List<RepoModel>> callback;
 
         public CheckCacheData(RepoDao dao, GithubRestClient restClient,
-                              MediatorLiveData<Response<List<RepoModel>>> liveData) {
+                              Callback<List<RepoModel>> callback) {
             this.dao = dao;
             this.restClient = restClient;
-            this.liveData = liveData;
+            this.callback = callback;
         }
 
         @Override
@@ -81,42 +101,29 @@ public class TrendingRepository {
             long saveTime = SharePref.getInstance().getLastUpdatedDate(null);
             long hoursDiff = Utilities.compareTime(saveTime, TimeUnit.MINUTES);
             if (isEmpty || hoursDiff > 120) {
-                restClient.getTrendingRepo(new Callback<List<RepoModel>>() {
-                    @Override
-                    public void onResponse(Call<List<RepoModel>> call, retrofit2.Response<List<RepoModel>> response) {
-                        if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                            new SaveToDB(dao, response.body()).execute();
-                        } else {
-                            liveData.setValue(Response.<List<RepoModel>>error("Empty response"));
-                        }
-                    }
+                restClient.getTrendingRepo(callback);
+            }
+        }
+    }
 
-                    @Override
-                    public void onFailure(Call<List<RepoModel>> call, Throwable t) {
-                        liveData.setValue(Response.<List<RepoModel>>error("Error message"));
-                    }
-                });
+
+    private static class SaveToDB extends AsyncTask<Void, Void, Void> {
+        private RepoDao dao;
+        private List<RepoEntity> entities;
+
+        public SaveToDB(RepoDao dao, List<RepoModel> models) {
+            this.dao = dao;
+            final Gson gson = new Gson();
+            entities = new ArrayList<>();
+            for (RepoModel model : models) {
+                entities.add(model.toDatabaseModel(gson));
             }
         }
 
-        private static class SaveToDB extends AsyncTask<Void, Void, Void> {
-            private RepoDao dao;
-            private List<RepoEntity> entities;
-
-            public SaveToDB(RepoDao dao, List<RepoModel> models) {
-                this.dao = dao;
-                final Gson gson = new Gson();
-                entities = new ArrayList<>();
-                for (RepoModel model : models) {
-                    entities.add(model.toDatabaseModel(gson));
-                }
-            }
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                dao.updateData(entities);
-                return null;
-            }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            dao.updateData(entities);
+            return null;
         }
     }
 }

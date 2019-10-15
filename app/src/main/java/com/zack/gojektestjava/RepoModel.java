@@ -86,6 +86,22 @@ public class RepoModel {
         this.currentPeriodStars = currentPeriodStars;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getLanguageColor() {
+        return languageColor;
+    }
+
+    public void setLanguageColor(String languageColor) {
+        this.languageColor = languageColor;
+    }
+
     public List<UserModel> getBuiltBy() {
         return builtBy;
     }

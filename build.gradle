@@ -2,6 +2,7 @@
 
 buildscript {
     ext {
+        version_lifecycle = "2.1.0"
         version_retrofit = "2.6.2"
         version_room = "2.2.0"
     }
