@@ -1,4 +1,4 @@
-package com.zack.gojektestjava;
+package com.zack.gojektestjava.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

@@ -3,13 +3,15 @@ package com.zack.gojektestjava;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.view.View;
 
+import com.zack.gojektestjava.adapter.TrendingRecyclerViewAdapter;
 import com.zack.gojektestjava.databinding.ActivityMainBinding;
+import com.zack.gojektestjava.model.RepoModel;
+import com.zack.gojektestjava.viewmodel.TrendingViewModel;
 
 import java.util.List;
 

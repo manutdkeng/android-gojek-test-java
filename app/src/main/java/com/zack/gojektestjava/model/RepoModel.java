@@ -1,4 +1,4 @@
-package com.zack.gojektestjava;
+package com.zack.gojektestjava.model;
 
 import android.text.TextUtils;
 

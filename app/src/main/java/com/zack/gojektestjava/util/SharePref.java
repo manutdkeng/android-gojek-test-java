@@ -1,4 +1,4 @@
-package com.zack.gojektestjava;
+package com.zack.gojektestjava.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

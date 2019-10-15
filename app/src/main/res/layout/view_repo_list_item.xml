@@ -6,7 +6,7 @@
     <data>
         <variable
             name="repoModel"
-            type="com.zack.gojektestjava.RepoModel" />
+            type="com.zack.gojektestjava.model.RepoModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

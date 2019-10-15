@@ -1,9 +1,9 @@
 package com.zack.gojektestjava;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.zack.gojektestjava.database.RepoDatabase;
+import com.zack.gojektestjava.util.SharePref;
 
 public class MyApplication extends Application {
 

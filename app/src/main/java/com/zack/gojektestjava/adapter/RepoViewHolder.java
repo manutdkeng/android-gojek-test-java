@@ -1,4 +1,4 @@
-package com.zack.gojektestjava;
+package com.zack.gojektestjava.adapter;
 
 import android.graphics.BlendMode;
 import android.graphics.BlendModeColorFilter;
@@ -12,7 +12,9 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+import com.zack.gojektestjava.model.RepoModel;
 import com.zack.gojektestjava.databinding.ViewRepoListItemBinding;
+import com.zack.gojektestjava.util.CircleTransform;
 
 public class RepoViewHolder extends RecyclerView.ViewHolder {
     private ViewRepoListItemBinding binding;

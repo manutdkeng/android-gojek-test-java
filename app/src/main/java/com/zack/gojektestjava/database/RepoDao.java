@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.zack.gojektestjava.SharePref;
+import com.zack.gojektestjava.util.SharePref;
 
 import java.util.List;
 

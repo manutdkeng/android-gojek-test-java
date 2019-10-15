@@ -1,4 +1,4 @@
-package com.zack.gojektestjava;
+package com.zack.gojektestjava.util;
 
 public class Response<T> {
     private T data;

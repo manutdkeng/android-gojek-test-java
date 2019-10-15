@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.zack.gojektestjava.TrendingViewModel" />
+            type="com.zack.gojektestjava.viewmodel.TrendingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

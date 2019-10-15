@@ -1,4 +1,4 @@
-package com.zack.gojektestjava;
+package com.zack.gojektestjava.repository;
 
 import android.os.AsyncTask;
 
@@ -10,6 +10,11 @@ import com.google.gson.Gson;
 import com.zack.gojektestjava.database.RepoDao;
 import com.zack.gojektestjava.database.RepoDatabase;
 import com.zack.gojektestjava.database.RepoEntity;
+import com.zack.gojektestjava.model.RepoModel;
+import com.zack.gojektestjava.rest.GithubRestClient;
+import com.zack.gojektestjava.util.Response;
+import com.zack.gojektestjava.util.SharePref;
+import com.zack.gojektestjava.util.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;

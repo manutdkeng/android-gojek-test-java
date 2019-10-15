@@ -1,4 +1,6 @@
-package com.zack.gojektestjava;
+package com.zack.gojektestjava.rest;
+
+import com.zack.gojektestjava.model.RepoModel;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

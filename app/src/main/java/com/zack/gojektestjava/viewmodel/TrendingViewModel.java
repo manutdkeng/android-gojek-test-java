@@ -1,10 +1,14 @@
-package com.zack.gojektestjava;
+package com.zack.gojektestjava.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
+
+import com.zack.gojektestjava.repository.TrendingRepository;
+import com.zack.gojektestjava.model.RepoModel;
+import com.zack.gojektestjava.util.Response;
 
 import java.util.List;
 

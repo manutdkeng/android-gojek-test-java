@@ -1,4 +1,4 @@
-package com.zack.gojektestjava;
+package com.zack.gojektestjava.util;
 
 import java.util.concurrent.TimeUnit;
 
