@@ -2,7 +2,6 @@ package com.zack.gojektestjava;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -10,10 +9,7 @@ import android.view.View;
 
 import com.zack.gojektestjava.adapter.TrendingRecyclerViewAdapter;
 import com.zack.gojektestjava.databinding.ActivityMainBinding;
-import com.zack.gojektestjava.model.RepoModel;
 import com.zack.gojektestjava.viewmodel.TrendingViewModel;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -29,35 +25,33 @@ public class MainActivity extends AppCompatActivity {
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
 
+        setTitle(R.string.title);
+
         setObservers();
+        setListener();
     }
 
     private void setObservers() {
-        viewModel.getLoadingLiveData().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean loadingState) {
-                binding.loadingLayout.setVisibility(loadingState ? View.VISIBLE : View.GONE);
-            }
+        viewModel.getLoadingLiveData().observe(this, loadingState -> binding.loadingLayout.setVisibility(loadingState ? View.VISIBLE : View.GONE));
+
+        viewModel.getErrorLiveData().observe(this, showError -> {
+            binding.swipeContainer.setRefreshing(false);
+            binding.errorLayout.setVisibility(showError ? View.VISIBLE : View.GONE);
+            binding.swipeContainer.setVisibility(showError ? View.GONE : View.VISIBLE);
         });
 
-        viewModel.getErrorLiveData().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean showError) {
-                binding.errorLayout.setVisibility(showError ? View.VISIBLE : View.GONE);
-                binding.trendingList.setVisibility(showError ? View.GONE : View.VISIBLE);
+        viewModel.getModelLiveData().observe(this, repoModels -> {
+            binding.swipeContainer.setRefreshing(false);
+            if (adapter == null) {
+                adapter = new TrendingRecyclerViewAdapter(repoModels);
+                binding.trendingList.setAdapter(adapter);
+            } else {
+                adapter.updateData(repoModels);
             }
         });
+    }
 
-        viewModel.getModelLiveData().observe(this, new Observer<List<RepoModel>>() {
-            @Override
-            public void onChanged(List<RepoModel> repoModels) {
-                if (adapter == null) {
-                    adapter = new TrendingRecyclerViewAdapter(repoModels);
-                    binding.trendingList.setAdapter(adapter);
-                } else {
-                    adapter.updateData(repoModels);
-                }
-            }
-        });
+    private void setListener() {
+        binding.swipeContainer.setOnRefreshListener(() -> viewModel.refreshData());
     }
 }

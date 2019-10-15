@@ -30,7 +30,7 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/larger_text_size"
                 android:background="@drawable/button"
-                android:onClick="@{() -> viewModel.refetchData()}"
+                android:onClick="@{() -> viewModel.retry()}"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
             <LinearLayout
@@ -70,12 +70,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/trending_list"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:visibility="gone" />
+            android:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trending_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <LinearLayout
             android:id="@+id/loading_layout"

@@ -23,8 +23,8 @@ public class TrendingRecyclerViewAdapter extends RecyclerView.Adapter<RepoViewHo
     }
 
     public void updateData(List<RepoModel> newData) {
+        this.models.clear();
         if (newData != null) {
-            this.models.clear();
             this.models.addAll(newData);
             notifyDataSetChanged();
         }
