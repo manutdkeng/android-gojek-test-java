@@ -47,17 +47,14 @@ public class TrendingRepository {
     public LiveData<Response<List<RepoModel>>> getAllTrending() {
         liveData = new MediatorLiveData<>();
         new CheckCacheData(dao, restClient, callback).execute();
-        liveData.addSource(dao.getAll(), new Observer<List<RepoEntity>>() {
-            @Override
-            public void onChanged(List<RepoEntity> entities) {
-                List<RepoModel> models = new ArrayList<>();
-                Gson gson = new Gson();
-                for (RepoEntity entity : entities) {
-                    models.add(new RepoModel().fromDatabaseModel(entity, gson));
-                }
-
-                liveData.setValue(Response.success(models));
+        liveData.addSource(dao.getAll(), entities -> {
+            List<RepoModel> models = new ArrayList<>();
+            Gson gson = new Gson();
+            for (RepoEntity entity : entities) {
+                models.add(new RepoModel().fromDatabaseModel(entity, gson));
             }
+
+            liveData.setValue(Response.success(models));
         });
 
         return liveData;
