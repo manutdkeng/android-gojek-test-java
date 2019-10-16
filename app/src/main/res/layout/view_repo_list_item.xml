@@ -81,9 +81,9 @@
                 android:id="@+id/stars"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="TextView"
+                tools:text="1,000"
                 android:layout_marginEnd="@dimen/default_padding"
-                android:text="@{Integer.toString(repoModel.stars)}"
+                android:text="@{@string/value_format(repoModel.stars)}"
                 android:drawableStart="@drawable/star_yellow"
                 android:drawablePadding="@dimen/between_padding"/>
 
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="TextView"
-                android:text="@{Integer.toString(repoModel.forks)}"
+                android:text="@{@string/value_format(repoModel.forks)}"
                 android:drawableStart="@drawable/fork_black"
                 android:drawablePadding="@dimen/between_padding"/>
         </LinearLayout>

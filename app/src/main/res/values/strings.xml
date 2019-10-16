@@ -7,4 +7,6 @@
     <string name="error_title">Something went wrong..</string>
     <string name="error_msg">An alien is probably blocking your signal.</string>
     <string name="loading">Loading..</string>
+
+    <string name="value_format">%,d</string>
 </resources>
