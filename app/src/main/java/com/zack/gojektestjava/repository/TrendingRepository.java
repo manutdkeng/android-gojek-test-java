@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.Observer;
 
 import com.google.gson.Gson;
 import com.zack.gojektestjava.database.RepoDao;
@@ -80,6 +79,11 @@ public class TrendingRepository {
         }
     };
 
+    /**
+     * Check cache data in background
+     * if there is no cache data or cache data is more than 2 hours ago,
+     * call API to fetch new data
+     */
     private static class CheckCacheData extends AsyncTask<Void, Void, Boolean> {
         private RepoDao dao;
         private GithubRestClient restClient;
@@ -100,7 +104,7 @@ public class TrendingRepository {
 
         @Override
         protected void onPostExecute(Boolean isEmpty) {
-            long saveTime = SharePref.getInstance().getLastUpdatedDate(null);
+            long saveTime = SharePref.getInstance().getLastUpdatedDate();
             long hoursDiff = Utilities.compareTime(saveTime, TimeUnit.MINUTES);
             if (isEmpty || hoursDiff > 120) {
                 restClient.getTrendingRepo(callback);
@@ -108,7 +112,9 @@ public class TrendingRepository {
         }
     }
 
-
+    /**
+     * Save data to database in background
+     */
     private static class SaveToDB extends AsyncTask<Void, Void, Void> {
         private RepoDao dao;
         private List<RepoEntity> entities;

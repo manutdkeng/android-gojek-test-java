@@ -2,6 +2,8 @@ package com.zack.gojektestjava.model;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zack.gojektestjava.database.RepoEntity;
@@ -110,7 +112,8 @@ public class RepoModel {
         this.builtBy = builtBy;
     }
 
-    public RepoModel fromDatabaseModel(RepoEntity entity, Gson gson) {
+    // convert database entity to model
+    public RepoModel fromDatabaseModel(@NonNull RepoEntity entity, @NonNull Gson gson) {
         this.author = entity.getAuthor();
         this.avatar = entity.getAvatar();
         this.currentPeriodStars = entity.getCurrentPeriodStars();
@@ -128,7 +131,8 @@ public class RepoModel {
         return this;
     }
 
-    public RepoEntity toDatabaseModel(Gson gson) {
+    // convert model to database entity
+    public RepoEntity toDatabaseModel(@NonNull Gson gson) {
         RepoEntity entity = new RepoEntity();
         entity.setAuthor(author);
         entity.setAvatar(avatar);

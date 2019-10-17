@@ -8,6 +8,9 @@ import android.graphics.Shader;
 
 import com.squareup.picasso.Transformation;
 
+/**
+ * To transform an image to circular shape
+ */
 public class CircleTransform implements Transformation {
     @Override
     public Bitmap transform(Bitmap source) {

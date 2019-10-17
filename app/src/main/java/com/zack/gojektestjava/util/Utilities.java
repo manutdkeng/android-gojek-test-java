@@ -3,6 +3,14 @@ package com.zack.gojektestjava.util;
 import java.util.concurrent.TimeUnit;
 
 public class Utilities {
+
+    /**
+     * compare timestamp with current time
+     *
+     * @param timestamp
+     * @param unit
+     * @return the difference in the TimeUnit provided
+     */
     public static long compareTime(long timestamp, TimeUnit unit) {
         if (timestamp < 0) {
             return -1;

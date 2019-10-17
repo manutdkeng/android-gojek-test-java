@@ -33,7 +33,7 @@ public class SharePref {
         myPrefsEdit.apply();
     }
 
-    public long getLastUpdatedDate(Context ctx) {
+    public long getLastUpdatedDate() {
         return myPrefs.getLong(LAST_UPDATE_DATE, 0);
     }
 }
