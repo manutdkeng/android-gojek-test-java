@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
 import com.google.gson.Gson;
+import com.zack.gojektestjava.MyApplication;
 import com.zack.gojektestjava.database.RepoDao;
 import com.zack.gojektestjava.database.RepoDatabase;
 import com.zack.gojektestjava.database.RepoEntity;
@@ -24,23 +25,23 @@ import retrofit2.Callback;
 
 public class TrendingRepository {
 
-    private static TrendingRepository instance;
+//    private static TrendingRepository instance;
     private GithubRestClient restClient;
     private RepoDao dao;
 
     private MediatorLiveData<Response<List<RepoModel>>> liveData;
 
-    public static synchronized TrendingRepository getInstance() {
-        if (instance == null) {
-            instance = new TrendingRepository();
-        }
-
-        return instance;
-    }
+//    public static synchronized TrendingRepository getInstance() {
+//        if (instance == null) {
+//            instance = new TrendingRepository();
+//        }
+//
+//        return instance;
+//    }
 
     private TrendingRepository() {
         restClient = GithubRestClient.getInstance();
-        dao = RepoDatabase.getInstance().repoDao();
+        dao = MyApplication.getInstance().component.getDatabase().repoDao();
     }
 
     public LiveData<Response<List<RepoModel>>> getAllTrending() {

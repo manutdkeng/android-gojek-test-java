@@ -5,6 +5,7 @@ buildscript {
         version_lifecycle = "2.1.0"
         version_retrofit = "2.6.2"
         version_room = "2.2.0"
+        version_dagger = "2.16"
     }
     repositories {
         google()
