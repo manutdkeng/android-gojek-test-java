@@ -14,18 +14,22 @@ import com.zack.gojektestjava.repository.TrendingRepository;
 import com.zack.gojektestjava.viewmodel.TrendingViewModel;
 import com.zack.gojektestjava.viewmodel.TrendingViewModelFactory;
 
+import javax.inject.Inject;
+
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private TrendingViewModel viewModel;
     private TrendingRecyclerViewAdapter adapter;
+
+//    @Inject
+//    public TrendingViewModelFactory viewModelFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        TrendingViewModelFactory viewModelFactory = new TrendingViewModelFactory(TrendingRepository.getInstance());
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(TrendingViewModel.class);
+        viewModel = ViewModelProviders.of(this, MyApplication.getInstance().component.getTrendingViewModelFactory()).get(TrendingViewModel.class);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
 

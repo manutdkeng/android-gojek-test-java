@@ -5,6 +5,9 @@ import com.zack.gojektestjava.model.RepoModel;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -13,9 +16,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
+@Singleton
 public class GithubRestClient {
     private static final String BASE_URL = "https://github-trending-api.now.sh";
-    private static GithubRestClient instance;
+    //    private static GithubRestClient instance;
     private GithubApiService service;
 
     interface GithubApiService {
@@ -23,7 +27,8 @@ public class GithubRestClient {
         Call<List<RepoModel>> getTrendingRepo();
     }
 
-    private GithubRestClient() {
+    @Inject
+    public GithubRestClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -41,13 +46,13 @@ public class GithubRestClient {
         service = retrofit.create(GithubApiService.class);
     }
 
-    public static synchronized GithubRestClient getInstance() {
-        if (instance == null) {
-            instance = new GithubRestClient();
-        }
-
-        return instance;
-    }
+//    public static synchronized GithubRestClient getInstance() {
+//        if (instance == null) {
+//            instance = new GithubRestClient();
+//        }
+//
+//        return instance;
+//    }
 
     public void getTrendingRepo(Callback<List<RepoModel>> callback) {
         service.getTrendingRepo().enqueue(callback);

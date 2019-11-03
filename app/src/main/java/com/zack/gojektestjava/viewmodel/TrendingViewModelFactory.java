@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.zack.gojektestjava.repository.TrendingRepository;
 
+import javax.inject.Inject;
+
 public class TrendingViewModelFactory implements ViewModelProvider.Factory {
 
     private TrendingRepository repository;

@@ -12,6 +12,7 @@ import com.zack.gojektestjava.database.RepoDatabase;
 import com.zack.gojektestjava.database.RepoEntity;
 import com.zack.gojektestjava.model.RepoModel;
 import com.zack.gojektestjava.rest.GithubRestClient;
+import com.zack.gojektestjava.util.Executor;
 import com.zack.gojektestjava.util.Response;
 import com.zack.gojektestjava.util.SharePref;
 import com.zack.gojektestjava.util.Utilities;
@@ -19,6 +20,9 @@ import com.zack.gojektestjava.util.Utilities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,9 +43,11 @@ public class TrendingRepository {
 //        return instance;
 //    }
 
-    private TrendingRepository() {
-        restClient = GithubRestClient.getInstance();
-        dao = MyApplication.getInstance().component.getDatabase().repoDao();
+    @Inject
+    public TrendingRepository(GithubRestClient restClient, @Named("Database") RepoDatabase database) {
+        this.restClient = restClient;
+        dao = database.repoDao();
+//        dao = MyApplication.getInstance().component.getDatabase().repoDao();
     }
 
     public LiveData<Response<List<RepoModel>>> getAllTrending() {

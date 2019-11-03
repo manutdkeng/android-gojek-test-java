@@ -14,18 +14,13 @@ import dagger.Provides;
 
 @Module
 public class DatabaseModule {
-    private final Context mContext;
-
-    public DatabaseModule(Context mContext) {
-        this.mContext = mContext;
-    }
 
     @Singleton
     @Provides
     @Named("Database")
-    public RepoDatabase provideDatabase() {
+    public RepoDatabase provideDatabase(Context context) {
         return Room.databaseBuilder(
-                mContext.getApplicationContext(),
+                context.getApplicationContext(),
                 RepoDatabase.class,
                 "gojek_test_db").build();
     }
