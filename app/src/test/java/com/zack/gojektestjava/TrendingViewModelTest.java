@@ -2,6 +2,7 @@ package com.zack.gojektestjava;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.zack.gojektestjava.model.RepoModel;
@@ -19,7 +20,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
@@ -38,6 +42,9 @@ public class TrendingViewModelTest {
 
     @Mock
     Observer<List<RepoModel>> dataObserver;
+
+    @Mock
+    Observer<String> updatedTimeObserver;
 
     private TrendingViewModel viewModel;
 
@@ -138,6 +145,22 @@ public class TrendingViewModelTest {
     public void testRefreshData() {
         viewModel.retry();
         verify(repository, times(1)).refreshData();
+    }
+
+    @Test
+    public void testLastUpdatedTime() {
+        MutableLiveData<Long> liveData = new MutableLiveData<>();
+        when(repository.getLastUpdatedLiveData()).thenReturn(liveData);
+
+        viewModel.getLastUpdatedLiveData().observeForever(updatedTimeObserver);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, -5);
+        long currentTimeAddFiveMin = calendar.getTimeInMillis();
+
+
+        liveData.setValue(currentTimeAddFiveMin);
+
+        verify(updatedTimeObserver).onChanged("5");
     }
 
     @After

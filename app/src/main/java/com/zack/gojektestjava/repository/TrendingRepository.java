@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.zack.gojektestjava.database.RepoDao;
@@ -29,6 +30,7 @@ public class TrendingRepository {
     private RepoDao dao;
 
     private MediatorLiveData<Response<List<RepoModel>>> liveData;
+    private MutableLiveData<Long> lastUpdatedLiveData;
 
     public static synchronized TrendingRepository getInstance() {
         if (instance == null) {
@@ -41,6 +43,12 @@ public class TrendingRepository {
     private TrendingRepository() {
         restClient = GithubRestClient.getInstance();
         dao = RepoDatabase.getInstance().repoDao();
+    }
+
+    public LiveData<Long> getLastUpdatedLiveData() {
+        lastUpdatedLiveData = new MutableLiveData<>();
+        lastUpdatedLiveData.setValue(SharePref.getInstance().getLastUpdatedDate());
+        return lastUpdatedLiveData;
     }
 
     public LiveData<Response<List<RepoModel>>> getAllTrending() {
@@ -67,7 +75,7 @@ public class TrendingRepository {
         @Override
         public void onResponse(Call<List<RepoModel>> call, retrofit2.Response<List<RepoModel>> response) {
             if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                new SaveToDB(dao, response.body()).execute();
+                new SaveToDB(dao, response.body(), lastUpdatedLiveData).execute();
             } else {
                 liveData.setValue(Response.<List<RepoModel>>error("Empty response"));
             }
@@ -118,9 +126,11 @@ public class TrendingRepository {
     private static class SaveToDB extends AsyncTask<Void, Void, Void> {
         private RepoDao dao;
         private List<RepoEntity> entities;
+        private MutableLiveData<Long> lastUpdatedLiveData;
 
-        public SaveToDB(RepoDao dao, List<RepoModel> models) {
+        public SaveToDB(RepoDao dao, List<RepoModel> models, MutableLiveData<Long> lastUpdatedLiveData) {
             this.dao = dao;
+            this.lastUpdatedLiveData = lastUpdatedLiveData;
             final Gson gson = new Gson();
             entities = new ArrayList<>();
             for (RepoModel model : models) {
@@ -132,6 +142,14 @@ public class TrendingRepository {
         protected Void doInBackground(Void... voids) {
             dao.updateData(entities);
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            long currentTime = System.currentTimeMillis();
+            SharePref.getInstance().setLastUpdatedDate(currentTime);
+            lastUpdatedLiveData.setValue(currentTime);
         }
     }
 }

@@ -7,8 +7,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.zack.gojektestjava.util.SharePref;
-
 import java.util.List;
 
 @Dao
@@ -30,7 +28,6 @@ public abstract class RepoDao {
         deleteAll();
         if (entities != null) {
             save(entities);
-            SharePref.getInstance().setLastUpdatedDate(System.currentTimeMillis());
         }
     }
 }
